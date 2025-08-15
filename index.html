@@ -3,13 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <title>Calculadora Simples</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    h1 {
+      color: #007BFF;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 400px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #resultado {
+      font-weight: bold;
+      font-size: 18px;
+      color: green;
+    }
+
+    .erro {
+      color: red;
+    }
+  </style>
 </head>
 <body>
   <h1>Calculadora Simples</h1>
 
-  <form>
+  <form id="calcForm">
     <label for="num1">Número 1:</label>
-    <input type="number" id="num1" name="num1" required><br><br>
+    <input type="number" id="num1" name="num1" required>
 
     <label for="operacao">Operação:</label>
     <select id="operacao" name="operacao">
@@ -17,14 +76,54 @@
       <option value="-">Subtrair (-)</option>
       <option value="*">Multiplicar (*)</option>
       <option value="/">Dividir (/)</option>
-    </select><br><br>
+    </select>
 
     <label for="num2">Número 2:</label>
-    <input type="number" id="num2" name="num2" required><br><br>
+    <input type="number" id="num2" name="num2" required>
 
     <button type="submit">Calcular</button>
   </form>
 
   <p>Resultado: <span id="resultado">---</span></p>
+
+  <script>
+    document.getElementById("calcForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Impede o envio do formulário
+
+      const num1 = parseFloat(document.getElementById("num1").value);
+      const num2 = parseFloat(document.getElementById("num2").value);
+      const operacao = document.getElementById("operacao").value;
+      const resultadoEl = document.getElementById("resultado");
+
+      let resultado;
+
+      if (operacao === '/' && num2 === 0) {
+        resultadoEl.textContent = "Erro: Divisão por zero!";
+        resultadoEl.classList.add("erro");
+        return;
+      } else {
+        resultadoEl.classList.remove("erro");
+      }
+
+      switch (operacao) {
+        case '+': 
+          resultado = num1 + num2;
+          break;
+        case '-':
+          resultado = num1 - num2;
+          break;
+        case '*':
+          resultado = num1 * num2;
+          break;
+        case '/':
+          resultado = num1 / num2;
+          break;
+        default:
+          resultado = "Operação inválida";
+      }
+
+      resultadoEl.textContent = resultado;
+    });
+  </script>
 </body>
 </html>
